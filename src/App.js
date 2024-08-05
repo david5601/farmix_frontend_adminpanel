@@ -11,7 +11,7 @@
 */
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
-import Mail from "./pages/Mail";
+import Configure from "./pages/Configure";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Main from "./components/layout/Main";
@@ -40,8 +40,8 @@ function App() {
           <Route exact path="/deposit" component={DepositHistory} />
           <Route exact path="/task" component={Tasks} />
           <Route exact path="/withdraw" component={Withdraw} />
-          <Route exact path="/mail" component={Mail} />
-          <Route exact path="/wallet" component={Wallet} />
+          <Route exact path="/configure" component={Configure} />
+          {/* <Route exact path="/wallet" component={Wallet} /> */}
         </Main>
       </Switch>
     </div>

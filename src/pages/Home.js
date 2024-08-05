@@ -112,21 +112,7 @@ function Home() {
   };
 
   const user_columns = [
-    {
-      title: "First Name",
-      dataIndex: "first_name",
-      key: "first_name",
-      render(data) {
-        return <div style={{ whiteSpace: "pre-wrap" }}>{data}</div>;
-      },
-      textWrap: "word-break",
-      ellipsis: true,
-    },
-    {
-      title: "Last Name",
-      dataIndex: "last_name",
-      key: "last_name",
-    },
+    
     {
       title: "Username",
       dataIndex: "username",
@@ -171,34 +157,7 @@ function Home() {
       textWrap: "word-break",
       ellipsis: true,
     },
-    // {
-    //   title: "View",
-    //   render(_, record) {
-    //     return (
-    //       <div>
-    //         <Button type="link" onClick={(e) => handleDetailButton(record)}>
-    //           Detail
-    //         </Button>
-    //       </div>
-    //     );
-    //   },
-    // },
-    // {
-    //   title: "Delete",
-    //   render(_, record) {
-    //     return (
-    //       <div>
-    //         <Button
-    //           type="link"
-    //           danger
-    //           onClick={(e) => handleDeleteButton(record)}
-    //         >
-    //           Delete
-    //         </Button>
-    //       </div>
-    //     );
-    //   },
-    // },
+ 
   ];
 
   const contextValue = useMemo(

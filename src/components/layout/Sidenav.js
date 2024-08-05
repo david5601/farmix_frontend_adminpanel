@@ -14,8 +14,8 @@
 import { Menu, Button } from "antd";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { PhoneOutlined } from "@ant-design/icons";
-import { BsTelephoneOutbound, BsTelephoneInbound  } from "react-icons/bs";
-import { RiMailSettingsLine, RiLogoutBoxLine, RiTimeLine } from "react-icons/ri";
+import { BsTelephoneOutbound, BsTelephoneInbound } from "react-icons/bs";
+import { RiMailSettingsLine, RiLogoutBoxLine, RiHomeGearLine } from "react-icons/ri";
 import { PiHandDeposit } from "react-icons/pi";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { PiUsersLight } from "react-icons/pi";
@@ -174,7 +174,7 @@ function Sidenav({ color }) {
 
   return (
     <>
-      <img src={logo} style={{marginBottom: '20px'}}/>
+      <img src={logo} style={{ marginBottom: '20px' }} />
       <div className="brand">
         <span>Farmix Admin Dashboard</span>
       </div>
@@ -188,7 +188,7 @@ function Sidenav({ color }) {
                 background: page === "users" ? color : "",
               }}
             >
-<PiUsersLight />
+              <PiUsersLight />
 
             </span>
             <span className="label">Users</span>
@@ -215,7 +215,7 @@ function Sidenav({ color }) {
                 background: page === "deposit" ? color : "",
               }}
             >
-<PiHandDeposit />
+              <PiHandDeposit />
             </span>
             <span className="label">Deposit History</span>
           </NavLink>
@@ -233,19 +233,19 @@ function Sidenav({ color }) {
             <span className="label">Tasks</span>
           </NavLink>
         </Menu.Item>
-        {/* <Menu.Item key="5">
-          <NavLink to="/wallet">
+        <Menu.Item key="5">
+          <NavLink to="/configure">
             <span
               className="icon"
               style={{
-                background: page === "wallet" ? color : "",
+                background: page === "configure" ? color : "",
               }}
             >
-              <RiTimeLine />
+              <RiHomeGearLine />
             </span>
-            <span className="label">Wallet</span>
+            <span className="label">Configure</span>
           </NavLink>
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item key="7">
           <NavLink to="/logout" onClick={() => {
             window.location.href = "/"
