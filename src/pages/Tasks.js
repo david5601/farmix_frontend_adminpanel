@@ -13,6 +13,7 @@ import {
   Modal,
   Upload,
   Image,
+  Select
 } from "antd";
 import { backend_api } from "../config";
 import axios from "axios";
@@ -30,7 +31,11 @@ import BigNumber from "bignumber.js";
 const Context = React.createContext({
   name: "Default",
 });
-
+const defaultTypeOptions = [
+  { value: 0, label: "Referral friend" },
+  { value: 1, label: "Join Channel or Group" },
+  { value: 2, label: "Other" },
+];
 function Tasks() {
   const history = useHistory();
   const user = useSelector((state) => state.auth.user);
@@ -51,6 +56,8 @@ function Tasks() {
   const [imageUrl, setImageUrl] = useState();
   const [imageLoading, setImageLoading] = useState(false);
   const [imageFile, setImageFile] = useState();
+  const [taskLink, setTaskLink] = useState('');
+  const [taskType, setTaskType] = useState(undefined);
   useEffect(() => {
     if (user == null) {
       history.push("/");
@@ -74,7 +81,7 @@ function Tasks() {
             api.info({
               message: `Server Error`,
               description: (
-                <Context.Consumer>{({}) => `Error Occured`}</Context.Consumer>
+                <Context.Consumer>{({ }) => `Error Occured`}</Context.Consumer>
               ),
               placement: "topRight",
             });
@@ -82,7 +89,7 @@ function Tasks() {
           api.info({
             message: `Server Error`,
             description: (
-              <Context.Consumer>{({}) => `Error Occured`}</Context.Consumer>
+              <Context.Consumer>{({ }) => `Error Occured`}</Context.Consumer>
             ),
             placement: "topRight",
           });
@@ -101,6 +108,8 @@ function Tasks() {
     setTaskBonus("");
     setImageFile();
     setImageUrl("");
+    setTaskLink("");
+    setTaskType(undefined)
   };
 
   const handleCancel = () => {
@@ -109,8 +118,13 @@ function Tasks() {
     clearTaskForm();
   };
 
+  const handleTypeChange = (option) => {
+    setTaskType(option)
+    setTaskLink("")
+  }
+
   const handleSaveNewTask = () => {
-    if (taskBonus == "" || taskName == "" || !imageFile) {
+    if (taskBonus == "" || taskName == "" || !imageFile || taskLink == "" || taskType === undefined) {
       notification.info({
         message: "Info",
         description: "Input correctly",
@@ -123,6 +137,8 @@ function Tasks() {
     const formData = new FormData();
     formData.append("image_url", imageFile);
     formData.append("name", taskName);
+    formData.append("link", taskLink);
+    formData.append('type', taskType)
     formData.append(
       "bonus",
       new BigNumber(taskBonus)
@@ -246,7 +262,31 @@ function Tasks() {
       key: "name",
       textWrap: "word-break",
       ellipsis: true,
-      width: "35%",
+    },
+    {
+      title: "Comment",
+      dataIndex: "link",
+      key: "link",
+      textWrap: "word-break",
+      ellipsis: true,
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+      textWrap: "word-break",
+      render: (type, record) => {
+        return (
+          <Space size="small">
+            <div style={{ whiteSpace: "wrap", width: "150px" }}>
+              {
+                type === 0 ? "Referral" : type === 1 ? "Join Channel(Group)" : "Other"
+              }
+            </div>
+          </Space>
+        );
+      },
+      ellipsis: true,
     },
     {
       title: "Bonus TH",
@@ -254,7 +294,6 @@ function Tasks() {
       key: "bonus",
       textWrap: "word-break",
       ellipsis: true,
-      width: "35%",
       render: (bonus, record) => {
         return (
           <Space size="small">
@@ -300,7 +339,7 @@ function Tasks() {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
-  const handleChange = (info) => {};
+  const handleChange = (info) => { };
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -450,6 +489,47 @@ function Tasks() {
                     />
                   </Col>
                 </Row>
+                <Row style={{ marginBottom: "20px" }} gutter={50}>
+                  <Col span={24}>
+                    <p>Type</p>
+                    <Select
+                      style={{ width: "100%" }}
+                      onChange={(option) =>
+                        handleTypeChange(option)
+                      }
+                      options={defaultTypeOptions}
+                      size="large"
+                      placeholder="select task type"
+                      value={taskType}
+                    ></Select>
+                  </Col>
+                </Row>
+
+                { !taskType ? <Row style={{ marginBottom: "20px" }} gutter={50}>
+                  <Col span={24}>
+                    <p>Member</p>
+                    <Input
+                      placeholder="10"
+                      onChange={(e) => {
+                        setTaskLink(e.target.value);
+                      }}
+                      value={taskLink}
+                      type="number"
+                    />
+                  </Col>
+                </Row> :
+                <Row style={{ marginBottom: "20px" }} gutter={50}>
+                  <Col span={24}>
+                    <p>link</p>
+                    <Input
+                      placeholder="https://t.me"
+                      onChange={(e) => {
+                        setTaskLink(e.target.value);
+                      }}
+                      value={taskLink}
+                    />
+                  </Col>
+                </Row>}
               </Form>
             </Col>
           </Row>
